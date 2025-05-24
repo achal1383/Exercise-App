@@ -58,3 +58,4 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
     prefs.setInt('streak', streak);
   }
 }
+

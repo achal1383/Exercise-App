@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../utils/constants.dart';
 import '../models/exercise_model.dart';
 
 class ExerciseRepository {
-  final String apiUrl = 'https://68252ec20f0188d7e72c394f.mockapi.io/dev/workouts';
+  final String apiUrl = '$baseUrl/workouts';
 
   Future<List<Exercise>> fetchExercises() async {
     final response = await http.get(Uri.parse(apiUrl));

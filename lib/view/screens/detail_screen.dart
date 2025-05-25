@@ -88,7 +88,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                widget.exercise.description,
+                widget.exercise.description.capitalize(widget.exercise.description),
                 style: TextStyle(fontSize: 18, color: Colors.grey[800]),
               ),
               const SizedBox(height: 20),
@@ -185,4 +185,9 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
       ),
     );
   }
+}
+
+extension on String {
+  String capitalize(String text) =>
+      text.isNotEmpty ? '${text[0].toUpperCase()}${text.substring(1)}' : '';
 }

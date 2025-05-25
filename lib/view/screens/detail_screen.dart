@@ -1,13 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
-
 import '../../data/models/exercise_model.dart';
-import '../../viewModel/blocs/exercise_bloc/exercise_bloc.dart';
-import '../../viewModel/blocs/exercise_bloc/exercise_event.dart';
-
 
 class ExerciseDetailScreen extends StatefulWidget {
   final Exercise exercise;
@@ -88,7 +82,9 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                widget.exercise.description.capitalize(widget.exercise.description),
+                widget.exercise.description.capitalize(
+                  widget.exercise.description,
+                ),
                 style: TextStyle(fontSize: 18, color: Colors.grey[800]),
               ),
               const SizedBox(height: 20),
@@ -156,7 +152,9 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 16),
+                      horizontal: 40,
+                      vertical: 16,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 import '../../../data/repository/exercise_repository.dart';
 import 'exercise_event.dart';
 import 'exercise_state.dart';
@@ -40,7 +39,10 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
     if (lastDate == today) {
       streak = prefs.getInt('streak') ?? 0;
     } else {
-      final yesterday = DateTime.now().subtract(Duration(days: 1)).toIso8601String().substring(0, 10);
+      final yesterday = DateTime.now()
+          .subtract(Duration(days: 1))
+          .toIso8601String()
+          .substring(0, 10);
       if (lastDate == yesterday) {
         streak = (prefs.getInt('streak') ?? 0) + 1;
       } else {
@@ -58,4 +60,3 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
     prefs.setInt('streak', streak);
   }
 }
-

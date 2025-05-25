@@ -5,7 +5,13 @@ class Exercise {
   final int duration;
   final String difficulty;
 
-  Exercise({required this.id, required this.name, required this.description, required this.duration, required this.difficulty});
+  Exercise({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.duration,
+    required this.difficulty,
+  });
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
     return Exercise(

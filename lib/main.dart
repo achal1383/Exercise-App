@@ -1,11 +1,10 @@
-import 'package:exerciseapp/view/screens/home_screen.dart';
-import 'package:exerciseapp/viewModel/blocs/exercise_bloc/exercise_bloc.dart';
-import 'package:exerciseapp/viewModel/blocs/exercise_bloc/exercise_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'data/repository/exercise_repository.dart';
-
+import 'features/fetchexercises/data/repository/exercise_repository_impl.dart';
+import 'features/fetchexercises/presentation/blocs/exercise_bloc/exercise_bloc.dart';
+import 'features/fetchexercises/presentation/blocs/exercise_bloc/exercise_event.dart';
+import 'features/fetchexercises/presentation/screens/home_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,10 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Exercise App',
       theme: ThemeData(useMaterial3: true),
       home: BlocProvider(
-        create: (_) => ExerciseBloc(ExerciseRepository())..add(LoadExercises()),
+        create: (_) =>
+            ExerciseBloc(ExerciseRepositoryImpl())..add(LoadExercises()),
         child: HomeScreen(),
       ),
     );

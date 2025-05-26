@@ -12,14 +12,4 @@ class Exercise {
     required this.duration,
     required this.difficulty,
   });
-
-  factory Exercise.fromJson(Map<String, dynamic> json) {
-    return Exercise(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      duration: json['duration'],
-      difficulty: json['difficulty'],
-    );
-  }
 }

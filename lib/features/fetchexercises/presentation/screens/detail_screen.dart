@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../../data/models/exercise_model.dart';
+
+import '../../domain/entities/exercise.dart';
 
 class ExerciseDetailScreen extends StatefulWidget {
   final Exercise exercise;

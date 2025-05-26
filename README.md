@@ -1,80 +1,107 @@
-# 📱 Exercise App
+# Flutter Exercise App (Clean Architecture + BLoC)
 
-A simple Flutter exercise app built using **Flutter**, **Dart**, and **BLoC** architecture. This app fetches workouts from a REST API, lets users view details, start a timer for each exercise, and tracks daily streaks and completed workouts.
-
----
-
-## 🔧 Features
-- 🏃‍♀️ View list of exercises from a mock API
-- 📋 Exercise detail screen with timer and completion status
-- ✅ Track completed exercises and view them in a dedicated screen
-- 🔄 Daily streak tracking using local storage (SharedPreferences)
-- ✨ Animated timer with circular progress
-- 🎨 Clean and responsive UI with professional design
+A simple exercise tracker app built with Flutter using **Clean Architecture** and **BLoC pattern**.
 
 ---
 
-## 📂 Folder Structure
-```
+## 🌟 Features
+
+- Fetch exercises from a REST API
+- Display exercise list with name and duration
+- Tap on an exercise to view full details
+- Start an animated timer for the selected exercise
+- Show “Exercise Completed” message on finish
+- Mark exercise as completed
+- Optional: Track consecutive workout days
+
+---
+
+## 🧱 Clean Architecture Structure
+
 lib/
+│
 ├── data/
-│   ├── exercise_model.dart         # Data model
-│   └── exercise_repository.dart    # API calls
-├── view/
-│   ├── home_screen.dart            # Exercise list UI
-│   ├── exercise_detail_screen.dart# Detail + Timer UI
-│   └── completed_exercises_screen.dart # Completed exercises UI
-├── viewmodel/
-│   └── exercise_bloc.dart          # BLoC logic
-└── main.dart                       # App entry point
-```
+│   ├── models/             --> JSON models from API
+│   └── repositories/       --> Implementation of domain repositories
+│
+├── domain/
+│   ├── entities/           --> Core business models (pure Dart)
+│   ├── repositories/       --> Abstract definitions
+│   └── usecases/           --> Business logic
+│
+├── presentation/
+│   ├── blocs/              --> BLoC state management
+│   └── screens/            --> UI screens (Home, Detail)
+│
+└── main.dart               --> App entry point
 
 ---
 
-## 📦 Packages Used
-- [flutter_bloc](https://pub.dev/packages/flutter_bloc)
-- [http](https://pub.dev/packages/http)
-- [shared_preferences](https://pub.dev/packages/shared_preferences)
+## 🔌 API Endpoint
 
----
-
-## 🚀 Getting Started
-1. **Clone the repo**
-```bash
-git clone https://github.com/your-username/exercise_app.git
-cd exercise_app
-```
-2. **Install dependencies**
-```bash
-flutter pub get
-```
-3. **Run the app**
-```bash
-flutter run
-```
-
----
-
-## 🌐 API Endpoint
-```
 GET https://68252ec20f0188d7e72c394f.mockapi.io/dev/workouts
-```
+
+Returns a list of exercises with fields like:
+
+- id
+- name
+- description
+- duration
+- difficulty
 
 ---
 
-## 📸 Screenshots
-_Add your screenshots here if available._
+## 🛠️ Getting Started
+
+1. **Clone this repository:**
+
+   git clone <https://github.com/achal1383/Exercise-App.git>
+   cd exercise_app
+
+2. **Install packages:**
+
+   flutter pub get
+
+3. **Run the app:**
+
+   flutter run
 
 ---
 
-## 💡 Future Enhancements
-- User authentication and profiles
-- Cloud sync for streaks and completions
-- Rich animations with Lottie or Rive
+## 📦 Dependencies
+
+- flutter_bloc
+- http
+- equatable (optional)
+- lottie (optional for animations)
 
 ---
 
-## 📃 License
-MIT License. Free to use and modify.
+## ✨ UI Details
+
+- Beautiful, responsive layout using Flutter’s Material widgets
+- Animated circular progress indicator during countdown
+- Custom background colors and styled cards
+- Optional feature to track workout streaks
 
 ---
+
+## 🚀 Future Improvements
+
+
+- Add Firebase authentication
+- Dark mode support
+- Notification/reminder feature
+
+---
+
+## 👩‍💻 Author
+
+**Rhea (Achal)**  
+Crafted with Flutter 💙
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.

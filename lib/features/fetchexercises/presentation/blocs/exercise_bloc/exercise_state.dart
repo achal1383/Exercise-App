@@ -1,6 +1,7 @@
 
 
 import '../../../data/models/exercise_model.dart';
+import '../../../domain/entities/exercise.dart';
 
 abstract class ExerciseState {}
 class ExerciseInitial extends ExerciseState {}

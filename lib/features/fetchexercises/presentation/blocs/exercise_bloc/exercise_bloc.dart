@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../data/repository/exercise_repository.dart';
+
+import '../../../domain/repository/exercise_repository.dart';
 import 'exercise_event.dart';
 import 'exercise_state.dart';
 
@@ -14,7 +15,7 @@ class ExerciseBloc extends Bloc<ExerciseEvent, ExerciseState> {
     on<LoadExercises>((event, emit) async {
       emit(ExerciseLoading());
       try {
-        final exercises = await repository.fetchExercises();
+        final exercises = await repository.getExercises();
         await _loadStreak();
         emit(ExerciseLoaded(exercises, completedIds, streak));
       } catch (e) {

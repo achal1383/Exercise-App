@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../viewModel/blocs/exercise_bloc/exercise_bloc.dart';
-import '../../viewModel/blocs/exercise_bloc/exercise_state.dart';
+
+import '../blocs/exercise_bloc/exercise_bloc.dart';
+import '../blocs/exercise_bloc/exercise_state.dart';
 import 'detail_screen.dart';
 
 class HomeScreen extends StatelessWidget {

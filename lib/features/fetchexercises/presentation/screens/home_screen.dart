@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../blocs/exercise_bloc/exercise_bloc.dart';
 import '../blocs/exercise_bloc/exercise_state.dart';
 import 'detail_screen.dart';
@@ -11,13 +10,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      backgroundColor: Colors.deepPurple[100],
+      backgroundColor: colorScheme.surfaceVariant,
       appBar: AppBar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: colorScheme.primary,
         title: Text(
           'Your Workout Plan',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: textTheme.titleLarge?.copyWith(color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -25,13 +27,15 @@ class HomeScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is ExerciseLoading) {
             return Center(
-              child: CircularProgressIndicator(color: Colors.deepPurple),
+              child: CircularProgressIndicator(
+                color: colorScheme.primary,
+              ),
             );
           } else if (state is ExerciseError) {
             return Center(
               child: Text(
                 'Error: ${state.message}',
-                style: TextStyle(color: Colors.red),
+                style: textTheme.bodyMedium?.copyWith(color: colorScheme.error),
               ),
             );
           } else if (state is ExerciseLoaded) {
@@ -41,10 +45,8 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     '🔥 Current Streak: ${state.streak} days',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple[800],
+                    style: textTheme.titleMedium?.copyWith(
+                      color: colorScheme.primary,
                     ),
                   ),
                 ),
@@ -54,15 +56,15 @@ class HomeScreen extends StatelessWidget {
                     itemCount: state.exercises.length,
                     itemBuilder: (context, index) {
                       final exercise = state.exercises[index];
-                      final completed = state.completedIds.contains(
-                        exercise.id,
-                      );
+                      final completed =
+                      state.completedIds.contains(exercise.id);
+
                       return AnimatedContainer(
-                        duration: Duration(milliseconds: 400),
+                        duration: const Duration(milliseconds: 400),
                         curve: Curves.easeInOut,
                         child: Card(
                           elevation: 10,
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                             vertical: 12,
                             horizontal: 8,
                           ),
@@ -71,26 +73,21 @@ class HomeScreen extends StatelessWidget {
                           ),
                           color: completed
                               ? Colors.green[100]
-                              : Colors.deepPurple[50],
+                              : colorScheme.secondaryContainer,
                           child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                               horizontal: 20,
                               vertical: 16,
                             ),
                             title: Text(
-                              exercise.name.capitalize(exercise.name),
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.deepPurple[900],
+                              StringCasing(exercise.name).capitalize(),
+                              style: textTheme.titleMedium?.copyWith(
+                                color: colorScheme.primary,
                               ),
                             ),
                             subtitle: Text(
                               '⏱ Duration: ${exercise.duration}s\n🏋️ Difficulty: ${exercise.difficulty}',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[700],
-                              ),
+                              style: textTheme.bodySmall,
                             ),
                             trailing: Icon(
                               completed
@@ -98,7 +95,7 @@ class HomeScreen extends StatelessWidget {
                                   : Icons.arrow_forward_ios_rounded,
                               color: completed
                                   ? Colors.green
-                                  : Colors.deepPurple,
+                                  : colorScheme.primary,
                               size: 28,
                             ),
                             onTap: () => Navigator.push(
@@ -119,7 +116,7 @@ class HomeScreen extends StatelessWidget {
               ],
             );
           } else {
-            return SizedBox();
+            return const SizedBox();
           }
         },
       ),
@@ -127,7 +124,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-extension on String {
-  String capitalize(String text) =>
-      text.isNotEmpty ? '${text[0].toUpperCase()}${text.substring(1)}' : '';
+extension StringCasing on String {
+  String capitalize() =>
+      isNotEmpty ? '${this[0].toUpperCase()}${substring(1)}' : '';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/theme.dart';
 import 'features/fetchexercises/data/repository/exercise_repository_impl.dart';
 import 'features/fetchexercises/presentation/blocs/exercise_bloc/exercise_bloc.dart';
 import 'features/fetchexercises/presentation/blocs/exercise_bloc/exercise_event.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Exercise App',
-      theme: ThemeData(useMaterial3: true),
+      theme: AppTheme.lightTheme,
       home: BlocProvider(
         create: (_) =>
             ExerciseBloc(ExerciseRepositoryImpl())..add(LoadExercises()),

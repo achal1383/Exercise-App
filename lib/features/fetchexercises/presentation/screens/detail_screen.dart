@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import '../../domain/entities/exercise.dart';
 
 class ExerciseDetailScreen extends StatefulWidget {
@@ -69,11 +67,17 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade50,
+      backgroundColor: colorScheme.surfaceVariant,
       appBar: AppBar(
-        title: Text(widget.exercise.name),
-        backgroundColor: Colors.deepPurple,
+        title: Text(
+          widget.exercise.name,
+          style: textTheme.titleLarge?.copyWith(color: Colors.white),
+        ),
+        backgroundColor: colorScheme.primary,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -83,10 +87,10 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                widget.exercise.description.capitalize(
-                  widget.exercise.description,
+                widget.exercise.description.capitalize(),
+                style: textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onSurface,
                 ),
-                style: TextStyle(fontSize: 18, color: Colors.grey[800]),
               ),
               const SizedBox(height: 20),
               Row(
@@ -94,11 +98,13 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
                 children: [
                   Text(
                     '⏱ Duration:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   Text(
                     '${widget.exercise.duration} seconds',
-                    style: TextStyle(fontSize: 16),
+                    style: textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -108,11 +114,13 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
                 children: [
                   Text(
                     '💪 Difficulty:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   Text(
                     widget.exercise.difficulty,
-                    style: TextStyle(fontSize: 16),
+                    style: textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -129,16 +137,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
                         child: CircularProgressIndicator(
                           value: _animationController.value,
                           strokeWidth: 12,
-                          backgroundColor: Colors.grey[300],
+                          backgroundColor: colorScheme.surface,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.deepPurple,
+                            colorScheme.primary,
                           ),
                         ),
                       ),
                       Text(
                         'Time Left: $_remainingSeconds s',
-                        style: TextStyle(
-                          fontSize: 20,
+                        style: textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -151,7 +158,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
                 child: ElevatedButton(
                   onPressed: _isRunning ? null : _startTimer,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: colorScheme.primary,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 40,
                       vertical: 16,
@@ -162,7 +169,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
                   ),
                   child: Text(
                     _isRunning ? 'Running...' : 'Start',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: textTheme.labelLarge?.copyWith(color: Colors.white),
                   ),
                 ),
               ),
@@ -171,8 +178,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
                 Center(
                   child: Text(
                     '🎉 Exercise Completed!',
-                    style: TextStyle(
-                      fontSize: 22,
+                    style: textTheme.titleLarge?.copyWith(
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
                     ),
@@ -186,7 +192,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
   }
 }
 
-extension on String {
-  String capitalize(String text) =>
-      text.isNotEmpty ? '${text[0].toUpperCase()}${text.substring(1)}' : '';
+extension StringCasing on String {
+  String capitalize() =>
+      isNotEmpty ? '${this[0].toUpperCase()}${substring(1)}' : '';
 }

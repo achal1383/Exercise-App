@@ -1,3 +1,4 @@
+import 'package:exerciseapp/features/fetchexercises/presentation/blocs/exercise_bloc/exercise_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,55 +57,55 @@ class HomeScreen extends StatelessWidget {
                     itemCount: state.exercises.length,
                     itemBuilder: (context, index) {
                       final exercise = state.exercises[index];
-                      final completed =
-                      state.completedIds.contains(exercise.id);
+                      final completed = state.completedIds.contains(exercise.id);
 
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 400),
                         curve: Curves.easeInOut,
-                        child: Card(
-                          elevation: 10,
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 8,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                        decoration: BoxDecoration(
                           color: completed
                               ? Colors.green[100]
                               : colorScheme.secondaryContainer,
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 16,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 8,
+                        ),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 16,
+                          ),
+                          title: Text(
+                            StringCasing(exercise.name).capitalize(),
+                            style: textTheme.titleMedium?.copyWith(
+                              color: colorScheme.primary,
                             ),
-                            title: Text(
-                              StringCasing(exercise.name).capitalize(),
-                              style: textTheme.titleMedium?.copyWith(
-                                color: colorScheme.primary,
-                              ),
-                            ),
-                            subtitle: Text(
-                              '⏱ Duration: ${exercise.duration}s\n🏋️ Difficulty: ${exercise.difficulty}',
-                              style: textTheme.bodySmall,
-                            ),
-                            trailing: Icon(
-                              completed
-                                  ? Icons.check_circle_rounded
-                                  : Icons.arrow_forward_ios_rounded,
-                              color: completed
-                                  ? Colors.green
-                                  : colorScheme.primary,
-                              size: 28,
-                            ),
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ExerciseDetailScreen(
-                                  exercise: exercise,
-                                  onComplete: () {},
-                                ),
+                          ),
+                          subtitle: Text(
+                            '⏱ Duration: ${exercise.duration}s\n🏋️ Difficulty: ${exercise.difficulty}',
+                            style: textTheme.bodySmall,
+                          ),
+                          trailing: Icon(
+                            completed
+                                ? Icons.check_circle_rounded
+                                : Icons.arrow_forward_ios_rounded,
+                            color: completed
+                                ? Colors.green
+                                : colorScheme.primary,
+                            size: 28,
+                          ),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ExerciseDetailScreen(
+                                exercise: exercise,
+                                onComplete: () {
+                                  BlocProvider.of<ExerciseBloc>(context).add(
+                                    MarkExerciseCompleted(exercise.id),
+                                  );
+                                },
                               ),
                             ),
                           ),

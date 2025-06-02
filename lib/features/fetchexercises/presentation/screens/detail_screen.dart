@@ -21,6 +21,7 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
   int _remainingSeconds = 0;
   Timer? _timer;
   bool _isRunning = false;
+  bool _isPaused = false;
   bool _isCompleted = false;
   late AnimationController _animationController;
 
@@ -42,27 +43,71 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
   }
 
   void _startTimer() {
+    _timer?.cancel();
+    _animationController.reset();
+
     setState(() {
       _isCompleted = false;
       _isRunning = true;
+      _isPaused = false;
       _remainingSeconds = widget.exercise.duration;
     });
 
-    _animationController.reset();
     _animationController.forward();
 
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_remainingSeconds > 0) {
           _remainingSeconds--;
         } else {
           timer.cancel();
+          _animationController.stop();
           _isRunning = false;
           _isCompleted = true;
           widget.onComplete();
         }
       });
     });
+  }
+
+  void _pauseTimer() {
+    _timer?.cancel();
+    _animationController.stop();
+    setState(() {
+      _isRunning = false;
+      _isPaused = true;
+    });
+  }
+
+  void _resumeTimer() {
+    setState(() {
+      _isRunning = true;
+      _isPaused = false;
+    });
+
+    _animationController.forward();
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_remainingSeconds > 0) {
+          _remainingSeconds--;
+        } else {
+          timer.cancel();
+          _animationController.stop();
+          _isRunning = false;
+          _isCompleted = true;
+          widget.onComplete();
+        }
+      });
+    });
+  }
+
+  void _resumeOrRestart() {
+    if (_isCompleted) {
+      _startTimer();
+    } else {
+      _resumeTimer();
+    }
   }
 
   @override
@@ -156,7 +201,11 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
               const SizedBox(height: 30),
               Center(
                 child: ElevatedButton(
-                  onPressed: _isRunning ? null : _startTimer,
+                  onPressed: _isRunning
+                      ? _pauseTimer
+                      : (_isPaused || _isCompleted
+                      ? _resumeOrRestart
+                      : _startTimer),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorScheme.primary,
                     padding: const EdgeInsets.symmetric(
@@ -168,8 +217,15 @@ class _ExerciseDetailScreenState extends State<ExerciseDetailScreen>
                     ),
                   ),
                   child: Text(
-                    _isRunning ? 'Running...' : 'Start',
-                    style: textTheme.labelLarge?.copyWith(color: Colors.white),
+                    _isRunning
+                        ? 'Pause'
+                        : _isPaused
+                        ? 'Resume'
+                        : _isCompleted
+                        ? 'Restart'
+                        : 'Start',
+                    style:
+                    textTheme.labelLarge?.copyWith(color: Colors.white),
                   ),
                 ),
               ),
